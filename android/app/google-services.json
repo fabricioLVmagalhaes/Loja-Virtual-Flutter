@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "534163347585",
+    "firebase_url": "https://lojaflutter-c552b.firebaseio.com",
+    "project_id": "lojaflutter-c552b",
+    "storage_bucket": "lojaflutter-c552b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534163347585:android:3a4061e7c3d51391",
+        "android_client_info": {
+          "package_name": "br.com.magalhaes.loja_virtual"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534163347585-k7rjibpgda4tnnstf8m8hd31m6mrp54p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJksjgeEpZwX7Klt3mn6oDrAkH_aF4cb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534163347585-k7rjibpgda4tnnstf8m8hd31m6mrp54p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
