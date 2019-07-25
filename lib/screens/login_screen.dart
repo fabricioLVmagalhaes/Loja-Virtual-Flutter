@@ -15,8 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailControler = TextEditingController();
   final _passControler = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +73,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_emailControler.text.isEmpty)
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Insira seu email para recuperação!"),
+                            backgroundColor: Colors.redAccent,
+                            duration: Duration(seconds: 2),
+                          ));
+                        else {
+                          model.recoverPass(_emailControler.text);
+                          _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            content: Text("Confira seu e-mail!"),
+                            backgroundColor: Theme.of(context).primaryColor,
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+
+                      },
                       child: Text(
                         "Esqueci minha senha",
                         textAlign: TextAlign.right,
@@ -120,11 +134,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onFail() {
-    _scaffoldKey.currentState.showSnackBar(
-        SnackBar(content: Text("Falha ao entrar!"),
-          backgroundColor: Colors.redAccent,
-          duration: Duration(seconds: 2),
-        )
-    );
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text("Falha ao entrar!"),
+      backgroundColor: Colors.redAccent,
+      duration: Duration(seconds: 2),
+    ));
   }
 }
