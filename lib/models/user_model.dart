@@ -50,6 +50,6 @@ class UserModel extends Model {
 
   Future<Null> _saveUserData(Map<String, dynamic> userData) async{
     this.userData = userData;
-    await Firestore.instance.collection("useres").document(firebaseUser.uid).setData(userData);
+    await Firestore.instance.collection("users").document(firebaseUser.uid).setData(userData);
   }
 }
