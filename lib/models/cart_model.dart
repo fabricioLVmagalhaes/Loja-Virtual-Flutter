@@ -70,30 +70,79 @@ class CartModel extends Model {
     notifyListeners();
   }
 
-  double getProductsPrice(){
+  double getProductsPrice() {
     double price = 0.0;
-    for(CartProduct c in products){
-      if(c.productData != null){
+    for (CartProduct c in products) {
+      if (c.productData != null) {
         price += c.quantity * c.productData.price;
       }
     }
     return price;
   }
 
-  double getDiscount(){
+  double getDiscount() {
     return getProductsPrice() * discountPercentage / 100;
   }
 
-  double getShipPrice(){
+  double getShipPrice() {
     return 9.99;
   }
 
-  void setCoupon(String couponCod, int discountPercentage){
+  Future<String> finishOrder() async {
+    if (products.isEmpty) return null;
+
+    isLoading = true;
+    notifyListeners();
+
+    double productsPrice = getProductsPrice();
+    double shipPrice = getShipPrice();
+    double discount = getDiscount();
+
+    DocumentReference refOrder =
+        await Firestore.instance.collection("orders").add({
+      "clientId": user.firebaseUser.uid,
+      "products": products.map((cartProduct) => cartProduct.toMap()).toList(),
+      "shipPrice": shipPrice,
+      "productsPrice": productsPrice,
+      "discount": discount,
+      "totalPrice": productsPrice - discount + shipPrice,
+      "status": 1
+    });
+
+    Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
+        .collection("orders")
+        .document(refOrder.documentID)
+        .setData({"orderId": refOrder.documentID});
+
+    QuerySnapshot query = await Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
+        .collection("cart")
+        .getDocuments();
+
+    for (DocumentSnapshot doc in query.documents) {
+      doc.reference.delete();
+    }
+
+    products.clear();
+
+    couponCod = null;
+    discountPercentage = 0;
+
+    isLoading = false;
+    notifyListeners();
+
+    return refOrder.documentID;
+  }
+
+  void setCoupon(String couponCod, int discountPercentage) {
     this.couponCod = couponCod;
     this.discountPercentage = discountPercentage;
   }
 
-  void upDatePrices(){
+  void upDatePrices() {
     notifyListeners();
   }
 
